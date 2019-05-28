@@ -1,0 +1,6 @@
+{
+    "server": "10.16.10.5",
+    "port": "1883",
+    "topic": "homeassistant",
+    "devicename": "voltronic"
+}

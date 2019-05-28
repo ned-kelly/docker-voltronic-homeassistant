@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  voltronic-mqtt:
+
+    build: .
+    container_name: voltronic-mqtt
+
+    privileged: true
+    restart: always
+
+    volumes:
+        - ./config/:/etc/skymax/
+
+    devices:
+    #  - "/dev/mem:/dev/mem"
+
+    # USB Port Mapping
+      - /dev/bus/usb:/dev/bus/usb:rwm
+      - /dev/ttyUSB0:/dev/ttyUSB0:rwm
+      - /dev/ttyUSB1:/dev/ttyUSB1:rwm
+
+    # Serial Port Mapping...
+      - /dev/ttyS0:/dev/ttyS0
+      - /dev/ttyS1:/dev/ttyS1
+      - /dev/ttyS2:/dev/ttyS2
