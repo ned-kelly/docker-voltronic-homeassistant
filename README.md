@@ -12,7 +12,7 @@ The program is designed to be run in a Docker Container, and can be deployed on 
 
 **Docker Hub:** [`bushrangers/ha-voltronic-mqtt`](https://hub.docker.com/r/bushrangers/ha-voltronic-mqtt/)
 
-![License](https://img.shields.io/github/license/ned-kelly/ha-monitor-api.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/bushrangers/ha-monitor-api.png)
+![License](https://img.shields.io/github/license/ned-kelly/docker-voltronic-homeassistant.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/bushrangers/ha-voltronic-mqtt.png)
 
 ## Prerequisites
 
