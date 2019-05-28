@@ -3,7 +3,9 @@ version: '2'
 services:
   voltronic-mqtt:
 
-    build: .
+    #build: .
+    image: bushrangers/ha-voltronic-mqtt
+
     container_name: voltronic-mqtt
 
     privileged: true
