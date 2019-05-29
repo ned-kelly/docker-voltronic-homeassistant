@@ -8,6 +8,9 @@ By remotely setting values via MQTT you can for example, change the power mode t
 
 The program is designed to be run in a Docker Container, and can be deployed on a lightweight SBC next to your Inverter (i.e. an Orange Pi Zero running Arabian), and read data via the RS232 or USB ports on the back of the Inverter.
 
+![Example Lovelace Dashboard](images/lovelace-dashboard.jpg "Example Lovelace Dashboard")
+_Example: My "Lovelace" dashboard using data collected from the Inverter._
+
 ----
 
 **Docker Hub:** [`bushrangers/ha-voltronic-mqtt`](https://hub.docker.com/r/bushrangers/ha-voltronic-mqtt/)
@@ -63,6 +66,8 @@ _(see [protocol manual](http://forums.aeva.asn.au/uploads/293/HS_MS_MSX_RS232_Pr
 
 
 ```
+DESCRIPTION:                PAYLOAD:  OPTIONS:
+----------------------------------------------------------------
 Set output source priority  POP00     (Utility first)
                             POP01     (Solar first)
                             POP02     (SBU)
@@ -78,3 +83,14 @@ Set other commands          PEa / PDa (Enable/disable buzzer)
                             PEu / PDu (Enable/disable overload restart);
                             PEx / PDx (Enable/disable backlight)
 ```
+
+### Bonus: Lovelace Dashboard Files
+
+_**Please refer to the screenshot above for an example of the dashboard.**_
+
+I've included some Lovelace dashboard files in the `homeassistant/` directory, however you will need to need to adapt to your own Home Assistant configuration and/or name of the inverter if you have changed it in the `mqtt.json` config file.
+
+Note that in addition to merging the sample Yaml files with your Home Assistant, you will need the following custom Lovelace cards installed if you wish to use my templates:
+
+ - [vertical-stack-in-card](https://github.com/custom-cards/vertical-stack-in-card)
+ - [circle-sensor-card](https://github.com/custom-cards/circle-sensor-card)

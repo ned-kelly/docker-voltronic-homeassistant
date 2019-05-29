@@ -1,0 +1,152 @@
+resources:
+  - type: js
+    url: /local/vertical-stack-in-card.js?v=0.1.2
+  - type: module
+    url: /local/circle-sensor-card.js?v=0
+title: Solar Dashboard
+
+views:
+  - badges: []
+    cards:
+      - cards:
+          - type: conditional
+            conditions:
+              - entity: sensor.voltronic_inverter_mode
+                state: '1'
+            card:
+              type: picture
+              image: /local/inverter-modes/1.png
+          - type: conditional
+            conditions:
+              - entity: sensor.voltronic_inverter_mode
+                state: '2'
+            card:
+              type: picture
+              image: /local/inverter-modes/2.png
+          - type: conditional
+            conditions:
+              - entity: sensor.voltronic_inverter_mode
+                state: '3'
+            card:
+              type: picture
+              image: /local/inverter-modes/3.png
+          - type: conditional
+            conditions:
+              - entity: sensor.voltronic_inverter_mode
+                state: '4'
+            card:
+              type: picture
+              image: /local/inverter-modes/4.png
+          - type: conditional
+            conditions:
+              - entity: sensor.voltronic_inverter_mode
+                state: '5'
+            card:
+              type: picture
+              image: /local/inverter-modes/5.png
+          - type: conditional
+            conditions:
+              - entity: sensor.voltronic_inverter_mode
+                state: '6'
+            card:
+              type: picture
+              image: /local/inverter-modes/6.png
+          - content: |
+              ---
+            type: markdown
+          - type: entities
+            entities:
+              - entity: input_select.solar_output_source_priority
+                icon: 'mdi:battery'
+              - entity: input_select.solar_charger_priority
+                icon: 'mdi:format-list-numbered'
+              - entity: automation.auto_switch_to_solar_only_charging_at_sunrise
+              - entity: automation.switch_to_battery_preferred_output_late_evenings
+        show_header_toggle: false
+        title: null
+        type: 'custom:vertical-stack-in-card'
+      - cards:
+          - entities:
+              - entity: sensor.voltronic_pv_in_voltage
+                name: PV Voltage (V)
+                icon: 'mdi:grid'
+                type: sensor
+              - entity: sensor.voltronic_pv_in_watts
+                name: PV Watts (W)
+                icon: 'mdi:battery-charging-70'
+                type: sensor
+            type: glance
+          - entities:
+              - entity: sensor.voltronic_load_watt
+                name: Inverter Output Load
+            type: history-graph
+          - entities:
+              - entity: sensor.voltronic_ac_grid_frequency
+                icon: 'mdi:current-ac'
+                name: Grid Frequency
+              - entity: sensor.voltronic_ac_grid_voltage
+                icon: 'mdi:power-plug'
+                name: Grid Voltage
+              - entity: sensor.voltronic_ac_out_frequency
+                icon: 'mdi:current-ac'
+                name: Output Freq
+              - entity: sensor.voltronic_ac_out_voltage
+                icon: 'mdi:power-plug'
+                name: Output Voltage
+            type: glance
+        show_header_toggle: false
+        title: System Overview
+        type: 'custom:vertical-stack-in-card'
+      - cards:
+          - cards:
+              - color_stops:
+                  '40': '#00dc10'
+                  '60': '#ff0000'
+                  '80': '#ffe400'
+                entity: sensor.voltronic_load_pct
+                font_style:
+                  font-size: 1.5em
+                gradient: true
+                name: System Load (%)
+                stroke_width: 10
+                type: 'custom:circle-sensor-card'
+              - color_stops:
+                  '50': '#ff0000'
+                  '75': '#ffe400'
+                  '100': '#00dc10'
+                entity: sensor.voltronic_battery_capacity
+                font_style:
+                  font-size: 1.5em
+                gradient: true
+                name: Battery Capacity
+                stroke_width: 10
+                type: 'custom:circle-sensor-card'
+            type: horizontal-stack
+          - entities:
+              - entity: sensor.voltronic_battery_charge_current
+                name: Battery Charge Current (A)
+              - entity: sensor.voltronic_battery_discharge_current
+                name: Battery Discharge Current (A)
+            type: history-graph
+          - entities:
+              - entity: sensor.voltronic_battery_float_voltage
+                icon: 'mdi:battery-charging'
+                name: Float Point
+              - entity: sensor.voltronic_battery_recharge_voltage
+                icon: 'mdi:battery-negative'
+                name: Recharge Lvl
+              - entity: sensor.voltronic_battery_redischarge_voltage
+                icon: 'mdi:battery-plus'
+                name: Discharge Lvl
+              - entity: sensor.voltronic_battery_under_voltage
+                icon: 'mdi:battery-charging-wireless-outline'
+                name: Critical Cutoff
+            type: glance
+          - entity: sensor.voltronic_battery_voltage
+            name: Battery Voltage (V)
+            type: sensor
+        show_header_toggle: false
+        title: null
+        type: 'custom:vertical-stack-in-card'
+    icon: 'mdi:grid'
+    title: Solar Configuration

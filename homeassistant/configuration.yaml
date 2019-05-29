@@ -1,0 +1,90 @@
+# You will need to merge with your own Home Assistant configuration.yml file...
+
+input_select:
+  solar_output_source_priority:
+    name: Solar Output Source Priority
+    options:
+      - POP00 (Utility first)
+      - POP01 (Solar first)
+      - POP02 (SBU)
+
+  solar_charger_priority:
+    name: Solar Charger Priority Order
+    options:
+      - PCP00 (Utility first)
+      - PCP01 (Solar first)
+      - PCP02 (Solar and utility)
+      - PCP03 (Solar only)
+
+
+# Automations of Solar PV Inverter (such as when to charge batteries off grid / from PV etc)...
+# This will automatically fire off the event to the inverter when changed in the UI.
+automation:
+- id: 'set_solar_output_source'
+  alias: Solar Trigger Output Source Change
+  trigger:
+    platform: state
+    entity_id: input_select.solar_output_source_priority
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: 'homeassistant/sensor/voltronic'
+      payload: >
+        {% if is_state("input_select.solar_output_source_priority", "POP00 (Utility first)") %}
+          POP00
+        {% elif is_state("input_select.solar_output_source_priority", "POP01 (Solar first)") %}
+          POP01
+        {% elif is_state("input_select.solar_output_source_priority", "POP02 (SBU)") %}
+          POP02
+        {% endif %}
+
+- id: 'set_solar_charge_priority'
+  alias: Stolar Trigger Charge Priority Change
+  trigger:
+    platform: state
+    entity_id: input_select.solar_charger_priority
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: 'homeassistant/sensor/voltronic'
+      payload: >
+        {% if is_state("input_select.solar_charger_priority", "PCP00 (Utility first)") %}
+          PCP00
+        {% elif is_state("input_select.solar_charger_priority", "PCP01 (Solar first)") %}
+          PCP01
+        {% elif is_state("input_select.solar_charger_priority", "PCP02 (Solar and utility)") %}
+          PCP02
+        {% elif is_state("input_select.solar_charger_priority", "PCP03 (Solar only)") %}
+          PCP03
+        {% endif %}
+
+# Auto Switch to 'Solar based charging ONLY at sunrise' (will not charge batteries from the Grid to save power...)
+- id: 'switch_solar_only_charging_am'
+  alias: Auto switch to "Solar Only" charging at Sunrise
+  trigger:
+    - event: sunrise
+      platform: sun
+      offset: "00:15:00"
+  condition: []
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.solar_charger_priority
+        option: "PCP01 (Solar first)"
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.solar_output_source_priority
+        option: "POP01 (Solar first)"
+
+- id: 'switch_battery_late_evenings'
+  # Running on UPS mode seems to fuck up the 8 port tplink switch (it drops out from time to time) so it's best that we change mode after 2AM when less people are using Plex etc...
+  alias: Switch to battery preferred output late evenings
+  trigger:
+    - at: '02:00'
+      platform: time
+  condition: []
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.solar_output_source_priority
+        option: "POP02 (SBU)"

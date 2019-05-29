@@ -16,7 +16,8 @@ registerTopic () {
             \"name\": \""$MQTT_DEVICENAME"_$1\",
             \"unit_of_measurement\": \"$2\",
             \"state_topic\": \"$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1\",
-            \"icon\": \"mdi:$3\"
+            \"icon\": \"mdi:$3\",
+            \"retain\": true
         }"
 }
 
@@ -27,42 +28,43 @@ registerInverterRawCMD () {
         -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME/config" \
         -m "{
             \"name\": \""$MQTT_DEVICENAME"\",
-            \"state_topic\": \"$MQTT_TOPIC/sensor/$MQTT_DEVICENAME\"
+            \"state_topic\": \"$MQTT_TOPIC/sensor/$MQTT_DEVICENAME\",
+            \"retain\": true
         }"
 }
 
-registerTopic "Inverter_mode" "" "mdi-solar-power" # 1 = Power_On, 2 = Standby, 3 = Line, 4 = Battery, 5 = Fault, 6 = Power_Saving, 7 = Unknown
-registerTopic "AC_grid_voltage" "V" "mdi-power-plug"
-registerTopic "AC_grid_frequency" "Hz" "mdi-current-ac"
-registerTopic "AC_out_voltage" "V" "mdi-power-plug"
-registerTopic "AC_out_frequency" "Hz" "mdi-current-ac"
-registerTopic "PV_in_voltage" "V" "mdi-solar-panel-large"
-registerTopic "PV_in_current" "A" "mdi-solar-panel-large"
-registerTopic "PV_in_watts" "W" "mdi-solar-panel-large"
-registerTopic "PV_in_watthour" "Wh" "mdi-solar-panel-large"
-registerTopic "SCC_voltage" "V" "mdi-current-dc"
-registerTopic "Load_pct" "%" "mdi-brightness-percent"
-registerTopic "Load_watt" "W" "mdi-chart-bell-curve"
-registerTopic "Load_watthour" "Wh" "mdi-chart-bell-curve"
-registerTopic "Load_va" "VA" "mdi-chart-bell-curve"
-registerTopic "Bus_voltage" "V" "mdi-details"
-registerTopic "Heatsink_temperature" "" "mdi-details"
-registerTopic "Battery_capacity" "%" "mdi-battery-outline"
-registerTopic "Battery_voltage" "V" "mdi-battery-outline"
-registerTopic "Battery_charge_current" "A" "mdi-current-dc"
-registerTopic "Battery_discharge_current" "A" "mdi-current-dc"
-registerTopic "Load_status_on" "" "mdi-power"
-registerTopic "SCC_charge_on" "" "mdi-power"
-registerTopic "AC_charge_on" "" "mdi-power"
-registerTopic "Battery_recharge_voltage" "V" "mdi-current-dc"
-registerTopic "Battery_under_voltage" "V" "mdi-current-dc"
-registerTopic "Battery_bulk_voltage" "V" "mdi-current-dc"
-registerTopic "Battery_float_voltage" "V" "mdi-current-dc"
-registerTopic "Max_grid_charge_current" "A" "mdi-current-ac"
-registerTopic "Max_charge_current" "A" "mdi-current-ac"
-registerTopic "Out_source_priority" "" "mdi-grid"
-registerTopic "Charger_source_priority" "" "mdi-solar-power"
-registerTopic "Battery_redischarge_voltage" "V" "mdi-battery-negative"
+registerTopic "Inverter_mode" "" "solar-power" # 1 = Power_On, 2 = Standby, 3 = Line, 4 = Battery, 5 = Fault, 6 = Power_Saving, 7 = Unknown
+registerTopic "AC_grid_voltage" "V" "power-plug"
+registerTopic "AC_grid_frequency" "Hz" "current-ac"
+registerTopic "AC_out_voltage" "V" "power-plug"
+registerTopic "AC_out_frequency" "Hz" "current-ac"
+registerTopic "PV_in_voltage" "V" "solar-panel-large"
+registerTopic "PV_in_current" "A" "solar-panel-large"
+registerTopic "PV_in_watts" "W" "solar-panel-large"
+registerTopic "PV_in_watthour" "Wh" "solar-panel-large"
+registerTopic "SCC_voltage" "V" "current-dc"
+registerTopic "Load_pct" "%" "brightness-percent"
+registerTopic "Load_watt" "W" "chart-bell-curve"
+registerTopic "Load_watthour" "Wh" "chart-bell-curve"
+registerTopic "Load_va" "VA" "chart-bell-curve"
+registerTopic "Bus_voltage" "V" "details"
+registerTopic "Heatsink_temperature" "" "details"
+registerTopic "Battery_capacity" "%" "battery-outline"
+registerTopic "Battery_voltage" "V" "battery-outline"
+registerTopic "Battery_charge_current" "A" "current-dc"
+registerTopic "Battery_discharge_current" "A" "current-dc"
+registerTopic "Load_status_on" "" "power"
+registerTopic "SCC_charge_on" "" "power"
+registerTopic "AC_charge_on" "" "power"
+registerTopic "Battery_recharge_voltage" "V" "current-dc"
+registerTopic "Battery_under_voltage" "V" "current-dc"
+registerTopic "Battery_bulk_voltage" "V" "current-dc"
+registerTopic "Battery_float_voltage" "V" "current-dc"
+registerTopic "Max_grid_charge_current" "A" "current-ac"
+registerTopic "Max_charge_current" "A" "current-ac"
+registerTopic "Out_source_priority" "" "grid"
+registerTopic "Charger_source_priority" "" "solar-power"
+registerTopic "Battery_redischarge_voltage" "V" "battery-negative"
 
 # Add in a separate topic so we can send raw commands from assistant back to the inverter via MQTT (such as changing power modes etc)...
 registerInverterRawCMD
