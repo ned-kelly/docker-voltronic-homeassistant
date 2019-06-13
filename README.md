@@ -77,6 +77,10 @@ Set charger priority        PCP00     (Utility first)
                             PCP02     (Solar and utility)
                             PCP03     (Solar only)
 
+Set the Charge/Discharge Levels
+                            PBDV25.7  (Discharge when battery at 25.7v or more)
+                            PBCV24.0  (Switch back to 'grid' when battery below 24.0v)
+
 Set other commands          PEa / PDa (Enable/disable buzzer)
                             PEb / PDb (Enable/disable overload bypass)
                             PEj / PDj (Enable/disable power saving)
