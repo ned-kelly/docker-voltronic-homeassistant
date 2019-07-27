@@ -3,8 +3,8 @@ version: '2'
 services:
   voltronic-mqtt:
 
-    #build: .
-    image: bushrangers/ha-voltronic-mqtt
+    build: .
+    #image: bushrangers/ha-voltronic-mqtt
 
     container_name: voltronic-mqtt
 
@@ -12,7 +12,7 @@ services:
     restart: always
 
     volumes:
-        - ./config/:/etc/skymax/
+        - ./config/:/etc/inverter/
 
     devices:
     #  - "/dev/mem:/dev/mem"

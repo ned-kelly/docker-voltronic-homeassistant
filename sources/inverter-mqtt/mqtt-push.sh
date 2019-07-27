@@ -2,10 +2,10 @@
 
 pushMQTTData () {
 
-    MQTT_SERVER=`cat /etc/skymax/mqtt.json | jq '.server' -r`
-    MQTT_PORT=`cat /etc/skymax/mqtt.json | jq '.port' -r`
-    MQTT_TOPIC=`cat /etc/skymax/mqtt.json | jq '.topic' -r`
-    MQTT_DEVICENAME=`cat /etc/skymax/mqtt.json | jq '.devicename' -r`
+    MQTT_SERVER=`cat /etc/inverter/mqtt.json | jq '.server' -r`
+    MQTT_PORT=`cat /etc/inverter/mqtt.json | jq '.port' -r`
+    MQTT_TOPIC=`cat /etc/inverter/mqtt.json | jq '.topic' -r`
+    MQTT_DEVICENAME=`cat /etc/inverter/mqtt.json | jq '.devicename' -r`
 
     mosquitto_pub \
         -h $MQTT_SERVER \
@@ -14,7 +14,7 @@ pushMQTTData () {
         -m "$2"
 }
 
-INVERTER_DATA=`timeout 10 /opt/voltronic-cli/bin/skymax`
+INVERTER_DATA=`timeout 10 /opt/voltronic-cli/bin/inverter_poller`
 
 #####################################################################################
 
@@ -120,4 +120,6 @@ Charger_source_priority=`echo $INVERTER_DATA | jq '.Charger_source_priority' -r`
 Battery_redischarge_voltage=`echo $INVERTER_DATA | jq '.Battery_redischarge_voltage' -r`
 [ ! -z "$Battery_redischarge_voltage" ] && pushMQTTData "Battery_redischarge_voltage" "$Battery_redischarge_voltage"
 
+Warnings=`echo $INVERTER_DATA | jq '.Warnings' -r`
+[ ! -z "$Warnings" ] && pushMQTTData "Warnings" "$Warnings"
 

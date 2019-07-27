@@ -21,7 +21,7 @@ _Example: My "Lovelace" dashboard using data collected from the Inverter._
 
 - Docker
 - Docker-compose
-- [Voltronic](https://www.ebay.com.au/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313.TR11.TRC1.A0.H0.Xaxpert+inverter.TRS0&_nkw=axpert+inverter&_sacat=0&LH_TitleDesc=0&LH_PrefLoc=2&_osacat=0&_odkw=solar+inverter&LH_TitleDesc=0) based inverter that you want to monitor
+- [Voltronic/Axpert/MPPSolar](https://www.ebay.com.au/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313.TR11.TRC1.A0.H0.Xaxpert+inverter.TRS0&_nkw=axpert+inverter&_sacat=0&LH_TitleDesc=0&LH_PrefLoc=2&_osacat=0&_odkw=solar+inverter&LH_TitleDesc=0) based inverter that you want to monitor
 - Home Assistant [running with a MQTT Server](https://www.home-assistant.io/components/mqtt/)
 
 
@@ -31,11 +31,11 @@ It's pretty straightforward, just clone down the sources and set the configurati
 
 ```bash
 # Clone down sources on the host you want to monitor...
-git clone https://github.com/ned-kelly/docker-voltronic-homeassistant.git /opt/ha-voltronic-mqtt
-cd /opt/ha-voltronic-mqtt
+git clone https://github.com/ned-kelly/docker-voltronic-homeassistant.git /opt/ha-inverter-mqtt-agent
+cd /opt/ha-inverter-mqtt-agent
 
-# Configure the 'device=' directive (in skymax.conf) to suit for RS232 or USB.. 
-vi config/skymax.conf
+# Configure the 'device=' directive (in inverter.conf) to suit for RS232 or USB.. 
+vi config/inverter.conf
 
 # Configure your MQTT server host, port, Home Assistant topic, and name of the Inverter that you want displayed in Home Assistant.
 vi config/mqtt.json
@@ -86,6 +86,25 @@ Set other commands          PEa / PDa (Enable/disable buzzer)
                             PEj / PDj (Enable/disable power saving)
                             PEu / PDu (Enable/disable overload restart);
                             PEx / PDx (Enable/disable backlight)
+```
+
+### Using `inverter_poller` binary directly
+
+This project uses heavily modified sources, from [manio's](https://github.com/manio/skymax-demo) original demo, and be compiled to run standalone on Linux, Mac, and Windows (via Cygwin).
+
+Just head to the `sources/inverter-cli` directory and build it directly using: `cmake . && make`.
+
+Basic arguments supported are:
+
+```
+USAGE:  ./inverter_poller <args> [-r <command>], [-h | --help], [-1 | --run-once]
+
+SUPPORTED ARGUMENTS:
+          -r <raw-command>      TX 'raw' command to the inverter
+          -h | --help           This Help Message
+          -1 | --run-once       Runs one iteration on the inverter, and then exits
+          -d                    Additional debugging
+
 ```
 
 ### Bonus: Lovelace Dashboard Files

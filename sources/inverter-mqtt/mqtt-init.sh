@@ -2,10 +2,10 @@
 #
 # Simple script to register the MQTT topics when the container starts for the first time...
 
-MQTT_SERVER=`cat /etc/skymax/mqtt.json | jq '.server' -r`
-MQTT_PORT=`cat /etc/skymax/mqtt.json | jq '.port' -r`
-MQTT_TOPIC=`cat /etc/skymax/mqtt.json | jq '.topic' -r`
-MQTT_DEVICENAME=`cat /etc/skymax/mqtt.json | jq '.devicename' -r`
+MQTT_SERVER=`cat /etc/inverter/mqtt.json | jq '.server' -r`
+MQTT_PORT=`cat /etc/inverter/mqtt.json | jq '.port' -r`
+MQTT_TOPIC=`cat /etc/inverter/mqtt.json | jq '.topic' -r`
+MQTT_DEVICENAME=`cat /etc/inverter/mqtt.json | jq '.devicename' -r`
 
 registerTopic () {
     mosquitto_pub \

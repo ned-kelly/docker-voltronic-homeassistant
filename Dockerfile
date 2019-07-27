@@ -9,10 +9,10 @@ RUN apt update && apt install -y \
         mosquitto-clients
 
 ADD sources/ /opt/
-ADD config/ /etc/skymax/
+ADD config/ /etc/inverter/
 
-RUN cd /opt/voltronic-cli && \
+RUN cd /opt/inverter-cli && \
     mkdir bin && cmake . && make
 
 WORKDIR /opt
-ENTRYPOINT ["/bin/bash", "/opt/voltronic-mqtt/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/opt/inverter-mqtt/entrypoint.sh"]
