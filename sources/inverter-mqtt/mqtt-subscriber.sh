@@ -9,6 +9,6 @@ while read rawcmd;
 do
 
     echo "Incoming request send: [$rawcmd] to inverter."
-    /opt/voltronic-cli/bin/inverter_poller -r $rawcmd;
+    /opt/inverter-cli/bin/inverter_poller -r $rawcmd;
 
 done < <(mosquitto_sub -h $MQTT_SERVER -p $MQTT_PORT -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME" -q 1)

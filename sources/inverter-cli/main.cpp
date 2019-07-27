@@ -264,7 +264,7 @@ int main(int argc, char* argv[]) {
                 printf("  \"Max_charge_current\":%d,\n", max_charge_current);
                 printf("  \"Out_source_priority\":%d,\n", out_source_priority);
                 printf("  \"Charger_source_priority\":%d,\n", charger_source_priority);
-                printf("  \"Battery_redischarge_voltage\":%.1f\n", batt_redischarge_voltage);
+                printf("  \"Battery_redischarge_voltage\":%.1f,\n", batt_redischarge_voltage);
                 printf("  \"Warnings\":\"%s\"\n", warnings->c_str());
                 printf("}\n");
 
