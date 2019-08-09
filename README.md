@@ -1,4 +1,4 @@
-# A Docker based Home Assistant interface for Voltronic Solar Inverters 
+# A Docker based Home Assistant interface for MPP/Voltronic Solar Inverters 
 
 This project [was derived](https://github.com/leithhobson/skymax-demo-Original) from the 'skymax' [C based monitoring application](https://skyboo.net/2017/03/monitoring-voltronic-power-axpert-mex-inverter-under-linux/) designed to take the monitoring data from Voltronic, Axpert, Mppsolar PIP, Voltacon, Effekta, and other branded OEM Inverters and send it to a Home Assistant MQTT server for ingestion...
 
@@ -77,9 +77,11 @@ Set charger priority        PCP00     (Utility first)
                             PCP02     (Solar and utility)
                             PCP03     (Solar only)
 
-Set the Charge/Discharge Levels
-                            PBDV25.7  (Discharge when battery at 25.7v or more)
-                            PBCV24.0  (Switch back to 'grid' when battery below 24.0v)
+Set the Charge/Discharge Levels & Cutoff
+                            PBDV26.9  (Don't discharge the battery unless it is at 26.9v or more)
+                            PBCV24.8  (Switch back to 'grid' when battery below 24.8v)
+                            PBFT27.1  (Set the 'float voltage' to 27.1v)
+                            PCVV28.1  (Set the 'charge voltage' to 28.1v)
 
 Set other commands          PEa / PDa (Enable/disable buzzer)
                             PEb / PDb (Enable/disable overload bypass)
@@ -87,6 +89,9 @@ Set other commands          PEa / PDa (Enable/disable buzzer)
                             PEu / PDu (Enable/disable overload restart);
                             PEx / PDx (Enable/disable backlight)
 ```
+
+*NOTE:* When setting/configuring your charge, discharge, float & cutoff voltages for the first time, it's worth  understanding how to optimize charging conditions to extend service life of your battery: https://batteryuniversity.com/learn/article/charging_the_lead_acid_battery
+
 
 ### Using `inverter_poller` binary directly
 
