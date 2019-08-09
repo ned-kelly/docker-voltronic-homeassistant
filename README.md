@@ -1,15 +1,29 @@
 # A Docker based Home Assistant interface for MPP/Voltronic Solar Inverters 
 
-This project [was derived](https://github.com/leithhobson/skymax-demo-Original) from the 'skymax' [C based monitoring application](https://skyboo.net/2017/03/monitoring-voltronic-power-axpert-mex-inverter-under-linux/) designed to take the monitoring data from Voltronic, Axpert, Mppsolar PIP, Voltacon, Effekta, and other branded OEM Inverters and send it to a Home Assistant MQTT server for ingestion...
+This project [was derived](https://github.com/manio/skymax-demo) from the 'skymax' [C based monitoring application](https://skyboo.net/2017/03/monitoring-voltronic-power-axpert-mex-inverter-under-linux/) designed to take the monitoring data from Voltronic, Axpert, Mppsolar PIP, Voltacon, Effekta, and other branded OEM Inverters and send it to a [Home Assistant](https://www.home-assistant.io/) MQTT server for ingestion...
 
 The program can also receive commands from Home Assistant (via MQTT) to change the state of the inverter remotely.
 
-By remotely setting values via MQTT you can for example, change the power mode to '_solar only_' during the day, but then change back to '_grid mode charging_' for your AGM batteries in the evenings - But if it's raining (based on data from your weather station), Set the charge mode to `PCP02` _(Charge based on 'Solar and Utility')_...
+By remotely setting values via MQTT you can implement many more complex forms of automation _(triggered from Home Assistant)_ such as:
+
+ - Changing the power mode to '_solar only_' during the day, but then change back to '_grid mode charging_' for your AGM or VLRA batteries in the evenings, but if it's raining (based on data from your weather station), set the charge mode to `PCP02` _(Charge based on 'Solar and Utility')_ so that the following day there's plenty of juice in your batteries...
+
+ - Programatically set the charge & float voltages based on additional sensors _(such as a Zigbee [Temperature Sensor](https://www.zigbee2mqtt.io/devices/WSDCGQ11LM.html), or a [DHT-22 + ESP8266](https://github.com/bastianraschke/dht-sensor-esp8266-homeassistant))_ - This way if your battery box is too hot/cold you can dynamically adjust the voltage so that the batteries are not damaged...
+
+ - Dynamically adjust the inverter's "solar power balance" and other configuration options to ensure that you get the most "bang for your buck" out of your setup... 
+
+--------------------------------------------------
 
 The program is designed to be run in a Docker Container, and can be deployed on a lightweight SBC next to your Inverter (i.e. an Orange Pi Zero running Arabian), and read data via the RS232 or USB ports on the back of the Inverter.
 
 ![Example Lovelace Dashboard](images/lovelace-dashboard.jpg "Example Lovelace Dashboard")
-_Example: My "Lovelace" dashboard using data collected from the Inverter._
+_Example #1: My "Lovelace" dashboard using data collected from the Inverter & the ability to change modes/configuration via MQTT._
+
+![Example Lovelace Dashboard](images/grafana-example.jpg "Example Grafana Dashboard")
+_Example #2: Grafana summary allowing more detailed analysis of data collected, and the ability to 'deep-dive' historical data._
+
+
+grafana-example.jpg
 
 ----
 
