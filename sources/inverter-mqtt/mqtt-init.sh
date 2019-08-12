@@ -16,8 +16,7 @@ registerTopic () {
             \"name\": \""$MQTT_DEVICENAME"_$1\",
             \"unit_of_measurement\": \"$2\",
             \"state_topic\": \"$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1\",
-            \"icon\": \"mdi:$3\",
-            \"retain\": true
+            \"icon\": \"mdi:$3\"
         }"
 }
 
