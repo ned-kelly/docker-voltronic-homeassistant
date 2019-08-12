@@ -51,7 +51,9 @@ cd /opt/ha-inverter-mqtt-agent
 # Configure the 'device=' directive (in inverter.conf) to suit for RS232 or USB.. 
 vi config/inverter.conf
 
-# Configure your MQTT server host, port, Home Assistant topic, and name of the Inverter that you want displayed in Home Assistant.
+# Configure your MQTT server's IP/Host Name, Port, Credentials, HA topic, and name of the Inverter that you want displayed in Home Assistant...
+# If your MQTT server does not need a username/password just leave these values empty.
+
 vi config/mqtt.json
 ```
 
@@ -62,7 +64,7 @@ docker-compose up -d
 
 ```
 
-_Note if you have issues standing up the image on your Linux distribution, you may need to manually build the image - This can be done by uncommenting the build flag in your docker-compose.yml file._
+_**Note:** builds on docker hub are currently for x64 -- If you have issues standing up the image on your Linux distribution (i.e. Your Raspberry Pi/ARM device) you will need to manually build the image - This can be done by uncommenting the build flag in your docker-compose.yml file._
 
 ## Integrating into Home Assistant.
 

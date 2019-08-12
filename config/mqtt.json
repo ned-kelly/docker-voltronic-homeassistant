@@ -2,5 +2,7 @@
     "server": "10.16.10.4",
     "port": "1883",
     "topic": "homeassistant",
-    "devicename": "voltronic"
+    "devicename": "voltronic",
+    "username": "",
+    "password": ""
 }
