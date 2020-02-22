@@ -174,7 +174,7 @@ int main(int argc, char* argv[]) {
     }
 
     bool ups_status_changed(false);
-    ups = new cInverter(devicename);
+    ups = new cInverter(devicename,qpiri);
 
     // Logic to send 'raw commands' to the inverter..
     if (!rawcmd.empty()) {

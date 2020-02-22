@@ -9,12 +9,13 @@
 #include <fcntl.h>
 #include <termios.h>
 
-cInverter::cInverter(std::string devicename) {
+cInverter::cInverter(std::string devicename, int qpiri) {
     device = devicename;
     status1[0] = 0;
     status2[0] = 0;
     warnings[0] = 0;
     mode = 0;
+    qpiri = qpiri;
 }
 
 string *cInverter::GetQpigsStatus() {
@@ -153,6 +154,7 @@ bool cInverter::query(const char *cmd, int replysize) {
 
 void cInverter::poll() {
     int n,j;
+    extern const int qpiri;
 
     while (true) {
 
