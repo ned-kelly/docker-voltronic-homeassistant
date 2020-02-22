@@ -176,7 +176,7 @@ void cInverter::poll() {
 
         // Reading QPIRI status
         if (!ups_qpiri_changed) {
-            if (query("QPIRI", 97)) {
+            if (query("QPIRI", qpiri)) {
                 m.lock();
                 strcpy(status2, (const char*)buf+1);
                 m.unlock();

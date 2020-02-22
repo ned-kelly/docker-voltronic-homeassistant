@@ -43,6 +43,7 @@ string devicename;
 int runinterval;
 float ampfactor;
 float wattfactor;
+int qpiri;
 
 // ---------------------------------------
 
@@ -90,6 +91,8 @@ void getSettingsFile(string filename) {
                     attemptAddSetting(&wattfactor, linepart2);
                 else if(linepart1 == "watt_factor")
                     attemptAddSetting(&wattfactor, linepart2);
+                else if(linepart1 == "qpiri")
+                    attemptAddSetting(&qpiri, linepart2);
                 else
                     continue;
             }
