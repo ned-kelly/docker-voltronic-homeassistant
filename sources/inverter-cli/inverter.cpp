@@ -9,13 +9,16 @@
 #include <fcntl.h>
 #include <termios.h>
 
-cInverter::cInverter(std::string devicename, int qpiri) {
+cInverter::cInverter(std::string devicename, int qpiri, int qpiws, int qmod, int qpigs) {
     device = devicename;
     status1[0] = 0;
     status2[0] = 0;
     warnings[0] = 0;
     mode = 0;
     qpiri = qpiri;
+    qpiws = qpiws;
+    qmod = qmod;
+    qpigs = qpigs;
 }
 
 string *cInverter::GetQpigsStatus() {
@@ -154,13 +157,13 @@ bool cInverter::query(const char *cmd, int replysize) {
 
 void cInverter::poll() {
     int n,j;
-    extern const int qpiri;
+    extern const int qpiri, qpiws, qmod, qpigs;
 
     while (true) {
 
         // Reading mode
         if (!ups_qmod_changed) {
-            if (query("QMOD", 5)) {
+            if (query("QMOD", qmod)) {
                 SetMode(buf[1]);
                 ups_qmod_changed = true;
             }
@@ -168,7 +171,7 @@ void cInverter::poll() {
 
         // reading status (QPIGS)
         if (!ups_qpigs_changed) {
-            if (query("QPIGS", 110)) {
+            if (query("QPIGS", qpigs)) {
                 m.lock();
                 strcpy(status1, (const char*)buf+1);
                 m.unlock();
@@ -188,7 +191,7 @@ void cInverter::poll() {
 
         // Get any device warnings...
         if (!ups_qpiws_changed) {
-            if (query("QPIWS", 36)) {
+            if (query("QPIWS", qpiws)) {
                 m.lock();
                 strcpy(warnings, (const char*)buf+1);
                 m.unlock();
