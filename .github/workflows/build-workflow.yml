@@ -44,13 +44,11 @@ jobs:
       -
         name: Run Buildx (Build only - Won't push if build fails...)
         run: |
-          docker buildx build \
-            --platform ${{ steps.prepare.outputs.docker_platforms }} \
+          docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
+            --output "type=image,push=false" \
             --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
             --build-arg "VCS_REF=${GITHUB_SHA::8}" \
             --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
-
-            --output "type=image,push=false" \
             --file Dockerfile .
       -
         name: Docker Login
@@ -63,13 +61,11 @@ jobs:
       -
         name: Run Buildx (Push to Docker Hub)
         run: |
-          docker buildx build \
-            --platform ${{ steps.prepare.outputs.docker_platforms }} \
+          docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
+            --output "type=image,push=true" \
             --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
             --build-arg "VCS_REF=${GITHUB_SHA::8}" \
             --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
-
-            --output "type=image,push=true" \
             --file Dockerfile .
       -
         name: Clear
