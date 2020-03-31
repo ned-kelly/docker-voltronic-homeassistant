@@ -100,9 +100,6 @@ Battery_recharge_voltage=`echo $INVERTER_DATA | jq '.Battery_recharge_voltage' -
 Battery_under_voltage=`echo $INVERTER_DATA | jq '.Battery_under_voltage' -r`
 [ ! -z "$Battery_under_voltage" ] && pushMQTTData "Battery_under_voltage" "$Battery_under_voltage"
 
-Battery_under_voltage=`echo $INVERTER_DATA | jq '.Battery_under_voltage' -r`
-[ ! -z "$Battery_under_voltage" ] && pushMQTTData "Battery_under_voltage" "$Battery_under_voltage"
-
 Battery_bulk_voltage=`echo $INVERTER_DATA | jq '.Battery_bulk_voltage' -r`
 [ ! -z "$Battery_bulk_voltage" ] && pushMQTTData "Battery_bulk_voltage" "$Battery_bulk_voltage"
 
