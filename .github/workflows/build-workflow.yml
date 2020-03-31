@@ -1,6 +1,3 @@
-- name: Docker Buildx
-  uses: crazy-max/ghaction-docker-buildx@v1.2.1
-
 # Docker Hub CI/CD for Multi Arch Images...
 name: buildx
 
