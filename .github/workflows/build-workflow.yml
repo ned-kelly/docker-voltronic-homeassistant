@@ -3,9 +3,15 @@ name: buildx
 
 on:
   pull_request:
-    branches: master
+    branches:
+      - master
+      - releases/*
+      - actions
   push:
-    branches: master
+    branches:
+      - master
+      - releases/*
+      - actions
     tags:
 
 jobs:
