@@ -1,5 +1,11 @@
 # A Docker based Home Assistant interface for MPP/Voltronic Solar Inverters 
 
+**Docker Hub:** [`bushrangers/ha-voltronic-mqtt:latest`](https://hub.docker.com/r/bushrangers/ha-voltronic-mqtt/)
+
+![License](https://img.shields.io/github/license/ned-kelly/docker-voltronic-homeassistant.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/bushrangers/ha-voltronic-mqtt.png) ![buildx](https://github.com/ned-kelly/docker-voltronic-homeassistant/workflows/buildx/badge.svg)
+
+----
+
 This project [was derived](https://github.com/manio/skymax-demo) from the 'skymax' [C based monitoring application](https://skyboo.net/2017/03/monitoring-voltronic-power-axpert-mex-inverter-under-linux/) designed to take the monitoring data from Voltronic, Axpert, Mppsolar PIP, Voltacon, Effekta, and other branded OEM Inverters and send it to a [Home Assistant](https://www.home-assistant.io/) MQTT server for ingestion...
 
 The program can also receive commands from Home Assistant (via MQTT) to change the state of the inverter remotely.
@@ -22,14 +28,6 @@ _Example #1: My "Lovelace" dashboard using data collected from the Inverter & th
 ![Example Lovelace Dashboard](images/grafana-example.jpg "Example Grafana Dashboard")
 _Example #2: Grafana summary allowing more detailed analysis of data collected, and the ability to 'deep-dive' historical data._
 
-
-grafana-example.jpg
-
-----
-
-**Docker Hub:** [`bushrangers/ha-voltronic-mqtt`](https://hub.docker.com/r/bushrangers/ha-voltronic-mqtt/)
-
-![License](https://img.shields.io/github/license/ned-kelly/docker-voltronic-homeassistant.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/bushrangers/ha-voltronic-mqtt.png) ![buildx](https://github.com/ned-kelly/docker-voltronic-homeassistant/workflows/buildx/badge.svg)
 
 ## Prerequisites
 
