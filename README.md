@@ -29,7 +29,7 @@ grafana-example.jpg
 
 **Docker Hub:** [`bushrangers/ha-voltronic-mqtt`](https://hub.docker.com/r/bushrangers/ha-voltronic-mqtt/)
 
-![License](https://img.shields.io/github/license/ned-kelly/docker-voltronic-homeassistant.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/bushrangers/ha-voltronic-mqtt.png)
+![License](https://img.shields.io/github/license/ned-kelly/docker-voltronic-homeassistant.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/bushrangers/ha-voltronic-mqtt.png) ![buildx](https://github.com/ned-kelly/docker-voltronic-homeassistant/workflows/buildx/badge.svg)
 
 ## Prerequisites
 
@@ -64,7 +64,11 @@ docker-compose up -d
 
 ```
 
-_**Note:** builds on docker hub are currently for x64 -- If you have issues standing up the image on your Linux distribution (i.e. Your Raspberry Pi/ARM device) you will need to manually build the image - This can be done by uncommenting the build flag in your docker-compose.yml file._
+_**Note:**_
+
+  - builds on docker hub are currently for `linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386` -- If you have issues standing up the image on your Linux distribution (i.e. An old Pi/ARM device) you may need to manually build the image to support your local device architecture - This can be done by uncommenting the build flag in your docker-compose.yml file.
+  
+  - The default `docker-compose.yml` file includes Watchtower, which can be  configured to auto-update this image when we push new changes to github - Please **uncomment if you wish to auto-update to the latest builds of this project**.
 
 ## Integrating into Home Assistant.
 

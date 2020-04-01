@@ -28,7 +28,7 @@ jobs:
             echo ::set-output name=version::${GITHUB_SHA::8}
           fi
           echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-          echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v6
+          echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386
           echo ::set-output name=docker_image::bushrangers/ha-voltronic-mqtt
       -
         name: Checkout
@@ -60,7 +60,7 @@ jobs:
             --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
             --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
             --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
-            --file Dockerfile .
+            --file Dockerfile.multiarch .
       -
         name: Clear
         if: always()
