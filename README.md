@@ -1,4 +1,4 @@
-# A Docker based Home Assistant interface for MPP/Voltronic Solar Inverters 
+# A Docker based Home Assistant interface for MPP/Voltronic/Iconica Solar Inverters 
 
 ![License](https://img.shields.io/github/license/ned-kelly/docker-voltronic-homeassistant.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/bushrangers/ha-voltronic-mqtt.png) ![buildx](https://github.com/ned-kelly/docker-voltronic-homeassistant/workflows/buildx/badge.svg)
 
