@@ -1,8 +1,12 @@
 {
-    "server": "10.16.10.4",
+    "server": "192.168.178.6",
     "port": "1883",
     "topic": "homeassistant",
-    "devicename": "voltronic",
-    "username": "",
-    "password": ""
+    "devicename": "Inverter",
+    "manufacturer": "Iconica",
+    "model": "ICBM300024",
+	"serial": "33A856E1",
+    "ver": "6.23_1.09",
+    "username": "mqtt",
+    "password": "0"
 }
