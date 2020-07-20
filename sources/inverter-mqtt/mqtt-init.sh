@@ -1,4 +1,4 @@
-#!/bin/bash
+##!/bin/bash
 #
 # Simple script to register the MQTT topics when the container starts for the first time...
 
@@ -6,6 +6,10 @@ MQTT_SERVER=`cat /etc/inverter/mqtt.json | jq '.server' -r`
 MQTT_PORT=`cat /etc/inverter/mqtt.json | jq '.port' -r`
 MQTT_TOPIC=`cat /etc/inverter/mqtt.json | jq '.topic' -r`
 MQTT_DEVICENAME=`cat /etc/inverter/mqtt.json | jq '.devicename' -r`
+MQTT_MANUFACTURER=`cat /etc/inverter/mqtt.json | jq '.manufacturer' -r`
+MQTT_MODEL=`cat /etc/inverter/mqtt.json | jq '.model' -r`
+MQTT_SERIAL=`cat /etc/inverter/mqtt.json | jq '.serial' -r`
+MQTT_VER=`cat /etc/inverter/mqtt.json | jq '.ver' -r`
 MQTT_USERNAME=`cat /etc/inverter/mqtt.json | jq '.username' -r`
 MQTT_PASSWORD=`cat /etc/inverter/mqtt.json | jq '.password' -r`
 
@@ -15,11 +19,15 @@ registerTopic () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
-        -t "$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1/config" \
+        -t ""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/config" \
+        -r \
         -m "{
             \"name\": \""$MQTT_DEVICENAME"_$1\",
-            \"unit_of_measurement\": \"$2\",
-            \"state_topic\": \"$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1\",
+            \"uniq_id\": \""$MQTT_DEVICENAME"_"$MQTT_SERIAL"\",
+            \"device\":{ \"ids\": [\""$MQTT_SERIAL"\"], \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
+            \"device_class\": \"$1\",
+            \"unit_of_meas\": \"$2\",
+            \"state_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1\",
             \"icon\": \"mdi:$3\"
         }"
 }
@@ -30,14 +38,17 @@ registerInverterRawCMD () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
-        -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME/config" \
+        -t ""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/COMMANDS/config" \
+		-r \
         -m "{
-            \"name\": \""$MQTT_DEVICENAME"\",
-            \"state_topic\": \"$MQTT_TOPIC/sensor/$MQTT_DEVICENAME\"
+            \"name\": \""$MQTT_DEVICENAME"_COMMANDS\",
+            \"uniq_id\": \""$MQTT_DEVICENAME"_"$MQTT_SERIAL"\",
+            \"device\":{ \"ids\": [\""$MQTT_SERIAL"\"], \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
+            \"device_class\": \"COMMANDS\",
+            \"state_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/COMMANDS\"
         }"
 }
 
-registerTopic "Inverter_mode" "" "solar-power" # 1 = Power_On, 2 = Standby, 3 = Line, 4 = Battery, 5 = Fault, 6 = Power_Saving, 7 = Unknown
 registerTopic "AC_grid_voltage" "V" "power-plug"
 registerTopic "AC_grid_frequency" "Hz" "current-ac"
 registerTopic "AC_out_voltage" "V" "power-plug"
@@ -66,6 +77,7 @@ registerTopic "Battery_bulk_voltage" "V" "current-dc"
 registerTopic "Battery_float_voltage" "V" "current-dc"
 registerTopic "Max_grid_charge_current" "A" "current-ac"
 registerTopic "Max_charge_current" "A" "current-ac"
+registerTopic "Mode" "" "solar-power" # 1 = Power_On, 2 = Standby, 3 = Line, 4 = Battery, 5 = Fault, 6 = Power_Saving, 7 = Unknown
 registerTopic "Out_source_priority" "" "grid"
 registerTopic "Charger_source_priority" "" "solar-power"
 registerTopic "Battery_redischarge_voltage" "V" "battery-negative"
