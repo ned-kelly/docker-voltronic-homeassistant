@@ -23,9 +23,8 @@ registerTopic () {
         -r \
         -m "{
             \"name\": \""$MQTT_DEVICENAME"_$1\",
-            \"uniq_id\": \""$MQTT_DEVICENAME"_"$MQTT_SERIAL"\",
+            \"uniq_id\": \""$MQTT_SERIAL"_$1\",
             \"device\":{ \"ids\": [\""$MQTT_SERIAL"\"], \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
-            \"device_class\": \"$1\",
             \"unit_of_meas\": \"$2\",
             \"state_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1\",
             \"icon\": \"mdi:$3\"
@@ -42,9 +41,8 @@ registerInverterRawCMD () {
 		-r \
         -m "{
             \"name\": \""$MQTT_DEVICENAME"_COMMANDS\",
-            \"uniq_id\": \""$MQTT_DEVICENAME"_"$MQTT_SERIAL"\",
+            \"uniq_id\": \""$MQTT_SERIAL"_COMMANDS\",
             \"device\":{ \"ids\": [\""$MQTT_SERIAL"\"], \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
-            \"device_class\": \"COMMANDS\",
             \"state_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/COMMANDS\"
         }"
 }
