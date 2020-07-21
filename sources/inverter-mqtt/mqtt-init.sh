@@ -22,7 +22,7 @@ registerTopic () {
         -t ""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/config" \
         -r \
         -m "{
-            \"name\": \""$MQTT_DEVICENAME"_$1\",
+            \"name\": \"$1_"$MQTT_SERIAL"\",
             \"uniq_id\": \""$MQTT_SERIAL"_$1\",
             \"device\":{ \"ids\": [\""$MQTT_SERIAL"\"], \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
             \"unit_of_meas\": \"$2\",
