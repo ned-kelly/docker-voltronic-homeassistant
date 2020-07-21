@@ -22,9 +22,9 @@ registerTopic () {
         -t ""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/config" \
         -r \
         -m "{
-            \"name\": \"$1_"$MQTT_SERIAL"\",
-            \"uniq_id\": \""$MQTT_DEVICENAME"_$1\",
-            \"device\":{ \"ids\": [\""$MQTT_SERIAL"\"], \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
+            \"name\": \"$1_"$MQTT_DEVICENAME"\",
+            \"uniq_id\": \""$MQTT_SERIAL"_$1\",
+            \"device\": { \"ids\": \""$MQTT_SERIAL"\", \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
             \"unit_of_meas\": \"$2\",
             \"state_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1\",
             \"icon\": \"mdi:$3\"
@@ -41,10 +41,10 @@ registerInverterRawCMD () {
 		-r \
         -m "{
             \"name\": \""$MQTT_DEVICENAME"_COMMANDS\",
-            \"uniq_id\": \""$MQTT_SERIAL"_COMMANDS\",
-            \"device\":{ \"ids\": [\""$MQTT_SERIAL"\"], \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
+            \"uniq_id\": \""$MQTT_DEVICENAME"_"$MQTT_SERIAL"\",
+            \"device\": { \"ids\": \""$MQTT_SERIAL"\", \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
             \"state_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/COMMANDS\"
-        }"
+	    }"
 }
 
 registerTopic "AC_grid_voltage" "V" "power-plug"
