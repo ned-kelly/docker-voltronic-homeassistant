@@ -6,6 +6,13 @@
 
 ----
 
+The following other projects may also run on the same SBC _(using the same style docker setup as this)_, to give you a fully featured solution with other sensors and devices:
+
+ - [EPEver MPPT Stats (MQTT, Docker Image)](https://github.com/ned-kelly/docker-epever-homeassistant)
+ - [LeChacal.com's CT Clamp Current/Energy Monitors for your Breaker Box](https://github.com/ned-kelly/docker-lechacal-homeassistant)
+
+---
+
 This project [was derived](https://github.com/manio/skymax-demo) from the 'skymax' [C based monitoring application](https://skyboo.net/2017/03/monitoring-voltronic-power-axpert-mex-inverter-under-linux/) designed to take the monitoring data from Voltronic, Axpert, Mppsolar PIP, Voltacon, Effekta, and other branded OEM Inverters and send it to a [Home Assistant](https://www.home-assistant.io/) MQTT server for ingestion...
 
 The program can also receive commands from Home Assistant (via MQTT) to change the state of the inverter remotely.
