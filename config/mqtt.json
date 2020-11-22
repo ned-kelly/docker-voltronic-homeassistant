@@ -6,6 +6,7 @@
     "username": "",
     "password": "",
     "influx": {
+        "enabled": "true",
         "host": "http://[INFLUX_IP_OR_URL]:8086", 
         "username": "", 
         "password": "", 

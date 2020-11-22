@@ -1,10 +1,5 @@
 #!/bin/bash
-INFLUX_HOST=`cat /etc/inverter/mqtt.json | jq '.influx.host' -r`
-if [[ -n $INFLUX_HOST ]]; then 
-    INFLUX_ENABLED=true
-else
-    INFLUX_ENABLED=false
-fi
+INFLUX_ENABLED=`cat /etc/inverter/mqtt.json | jq '.influx.enabled' -r`
 
 pushMQTTData () {
     MQTT_SERVER=`cat /etc/inverter/mqtt.json | jq '.server' -r`
@@ -22,7 +17,7 @@ pushMQTTData () {
         -t "$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1" \
         -m "$2"
     
-    if "$INFLUX_ENABLED"; then
+    if [[$INFLUX_ENABLED == "true"]] ; then
         pushInfluxData $1 $2
     fi
 }
