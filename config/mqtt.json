@@ -1,12 +1,12 @@
 {
-    "server": "10.16.10.4",
+    "server": "[HA_MQTT_IP]",
     "port": "1883",
     "topic": "homeassistant",
     "devicename": "voltronic",
     "username": "",
     "password": "",
     "influx": {
-        "enabled": "true",
+        "enabled": "false",
         "host": "http://[INFLUX_IP_OR_URL]:8086", 
         "username": "", 
         "password": "", 
