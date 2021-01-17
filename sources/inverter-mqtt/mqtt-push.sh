@@ -17,7 +17,7 @@ pushMQTTData () {
         -t "$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1" \
         -m "$2"
     
-    if [[$INFLUX_ENABLED == "true"]] ; then
+    if [[ $INFLUX_ENABLED == "true" ]] ; then
         pushInfluxData $1 $2
     fi
 }
