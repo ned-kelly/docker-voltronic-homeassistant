@@ -8,6 +8,7 @@ MQTT_TOPIC=`cat /etc/inverter/mqtt.json | jq '.topic' -r`
 MQTT_DEVICENAME=`cat /etc/inverter/mqtt.json | jq '.devicename' -r`
 MQTT_USERNAME=`cat /etc/inverter/mqtt.json | jq '.username' -r`
 MQTT_PASSWORD=`cat /etc/inverter/mqtt.json | jq '.password' -r`
+MQTT_CLIENTID=`cat /etc/inverter/mqtt.json | jq '.clientid' -r`
 
 registerTopic () {
     mosquitto_pub \
@@ -15,7 +16,7 @@ registerTopic () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
-        -i "voltronic_8a39d0c8faf1" \
+        -i $MQTT_CLIENTID \
         -t "$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1/config" \
         -m "{
             \"name\": \""$MQTT_DEVICENAME"_$1\",
@@ -31,7 +32,7 @@ registerInverterRawCMD () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
-        -i "voltronic_8a39d0c8faf1" \
+        -i $MQTT_CLIENTID \
         -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME/config" \
         -m "{
             \"name\": \""$MQTT_DEVICENAME"\",
