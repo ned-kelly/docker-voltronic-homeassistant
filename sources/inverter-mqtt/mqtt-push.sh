@@ -14,6 +14,7 @@ pushMQTTData () {
         -p $MQTT_PORT \
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
+        -i "voltronic_8a39d0c8faf1" \
         -t "$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1" \
         -m "$2"
     
