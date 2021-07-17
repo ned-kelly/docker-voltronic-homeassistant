@@ -19,7 +19,7 @@ jobs:
           fi
           echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386
-          echo ::set-output name=docker_image::bushrangers/ha-voltronic-mqtt
+          echo ::set-output name=docker_image::gadget78/solarinverter4homeassistant
       -
         name: Checkout
         uses: actions/checkout@v1
