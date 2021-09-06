@@ -1,4 +1,4 @@
-# A Docker based Home Assistant interface for MPP/Voltronic/Iconica Solar Inverters 
+# A Docker based Home Assistant interface for MPP/Voltronic/Iconica Solar Inverters
 
 ![License](https://img.shields.io/github/license/ned-kelly/docker-voltronic-homeassistant.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/bushrangers/ha-voltronic-mqtt.png) ![buildx](https://github.com/ned-kelly/docker-voltronic-homeassistant/workflows/buildx/badge.svg)
 
@@ -16,7 +16,7 @@ By remotely setting values via MQTT you can implement many more complex forms of
 
  - Programatically set the charge & float voltages based on additional sensors _(such as a Zigbee [Temperature Sensor](https://www.zigbee2mqtt.io/devices/WSDCGQ11LM.html), or a [DHT-22 + ESP8266](https://github.com/bastianraschke/dht-sensor-esp8266-homeassistant))_ - This way if your battery box is too hot/cold you can dynamically adjust the voltage so that the batteries are not damaged...
 
- - Dynamically adjust the inverter's "solar power balance" and other configuration options to ensure that you get the most "bang for your buck" out of your setup... 
+ - Dynamically adjust the inverter's "solar power balance" and other configuration options to ensure that you get the most "bang for your buck" out of your setup...
 
 --------------------------------------------------
 
@@ -49,12 +49,13 @@ git clone https://github.com/gadget78/docker-voltronic-homeassistant.git /opt/ha
 cd /opt/ha-inverter-mqtt-agent
 
 # next Configure the 'device=' parameter to suit for RS232 or USB etc (info in file).. 
-# Leave the rest the same for now 
+# Leave the rest the same for now
 # (how to use/save nano is printed at bottom, ctrl+x for exit, with prompt tosave)
 nano config/inverter.conf
 
 # Configure your MQTT server's IP/Host Name, Port, Credentials, HA topic, and name of the Inverter that you want displayed in Home Assistant...
 # If your MQTT server does not need a username/password just make something up (emtpy field in password can trip the topic parameter up).
+# You cannot use spaces in the names within this file. E.g. "manufacturer": "MPP Solar" will fail but "manufacturer": "MPPSolar" works.
 nano config/mqtt.json
 
 ```
@@ -69,7 +70,7 @@ docker-compose up -d
 _**Note:**_
 
   - builds on docker hub are currently for `linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386` -- If you have issues standing up the image on your Linux distribution (i.e. An old Pi/ARM device) you may need to manually build the image to support your local device architecture - This can be done by uncommenting the build flag in your docker-compose.yml file.
-  
+
 there are other option in `docker-compose.yml` like Watchtower, which can be configured to auto-update this image when we push new changes to github
 
 ## Integrating into Home Assistant.
@@ -145,13 +146,24 @@ SUPPORTED ARGUMENTS:
 when you first run the container, it will populate the homeassistant MQTT topic with auto discovery configs...
 if this does not happen your setup is incorrect somewhere (network etc)
 
-if you see the MQTT topics populate, but there is no data along with them (can take a few minuets at forst to get things rolling) then it could be a problem with polling your inverter
+if you see the MQTT topics populate, but there is no data along with them (can take a few minuets at first to get things rolling) then it could be a problem with polling your inverter
 use the invert_poller app thats created... by either
 sudo docker exec -it inverter bash -c '/opt/inverter-cli/bin/inverter_poller -d -1'
-or going direct to the terminal/console from within the container, using a say portainer 
+or going direct to the terminal/console from within the container, using a say portainer
 
-this will give feedback on what the invert_poller prigram is doing/getting back from the inverter..
+this will give feedback on what the invert_poller program is doing/getting back from the inverter..
 then using the info given here can help you adjust the inverter.conf file to get communication working...
+
+#### Device-specific inverter.conf settings
+
+MPP Solar 3048-LV-MK
+
+```
+qmod=5
+qpigs=110
+qpiri=104
+qpiws=40
+```
 
 ### Bonus: Lovelace Dashboard Files
 
