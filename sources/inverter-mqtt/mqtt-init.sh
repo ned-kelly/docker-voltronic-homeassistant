@@ -56,7 +56,7 @@ registerEnergyTopic () {
             \"uniq_id\": \""$MQTT_SERIAL"_$1\",
             \"device\": { \"ids\": \""$MQTT_SERIAL"\", \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
             \"state_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1\",
-            \"last_reset_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/LastReset\",			
+            \"last_reset_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/LastReset\",
             \"state_class\": \"measurement\",
             \"device_class\": \"$4\",
             \"unit_of_meas\": \"$2\",
@@ -104,7 +104,7 @@ registerTopic "Load_watt" "W" "chart-bell-curve" "power"
 registerEnergyTopic "Load_watthour" "Wh" "chart-bell-curve" "energy"
 registerTopic "Max_charge_current" "A" "current-ac" "current"
 registerTopic "Max_grid_charge_current" "A" "current-ac" "current"
-registerTopic "Mode" "" "solar-power" "" # 1 = Power_On, 2 = Standby, 3 = Line, 4 = Battery, 5 = Fault, 6 = Power_Saving, 7 = Unknown
+registerTopic "Inverter_mode" "" "solar-power" "" # 1 = Power_On, 2 = Standby, 3 = Line, 4 = Battery, 5 = Fault, 6 = Power_Saving, 7 = Unknown
 registerTopic "Out_source_priority" "" "grid" "none"
 registerTopic "PV_in_current" "A" "solar-panel-large" "current"
 registerTopic "PV_in_voltage" "V" "solar-panel-large" "voltage"
