@@ -18,7 +18,7 @@ pushMQTTData () {
         -i ""$MQTT_DEVICENAME"_"$MQTT_SERIAL"" \
         -t "$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1" \
         -m "$2"
-    
+
     if [[ $INFLUX_ENABLED == "true" ]] ; then
         pushInfluxData $1 $2
     fi
@@ -32,7 +32,7 @@ pushInfluxData () {
     INFLUX_PREFIX=`cat /etc/inverter/mqtt.json | jq '.influx.prefix' -r`
     INFLUX_DATABASE=`cat /etc/inverter/mqtt.json | jq '.influx.database' -r`
     INFLUX_MEASUREMENT_NAME=`cat /etc/inverter/mqtt.json | jq '.influx.namingMap.'$1'' -r`
-    
+
     curl -i -XPOST "$INFLUX_HOST/write?db=$INFLUX_DATABASE&precision=s" -u "$INFLUX_USERNAME:$INFLUX_PASSWORD" --data-binary "$INFLUX_PREFIX,device=$INFLUX_DEVICE $INFLUX_MEASUREMENT_NAME=$2"
 }
 
@@ -43,8 +43,24 @@ INVERTER_DATA=`timeout 10 /opt/inverter-cli/bin/inverter_poller -1`
 Inverter_mode=`echo $INVERTER_DATA | jq '.Inverter_mode' -r`
 
  # 1 = Power_On, 2 = Standby, 3 = Line, 4 = Battery, 5 = Fault, 6 = Power_Saving, 7 = Unknown
+case "$Inverter_mode" in
+  1
+    inverter_mode_string = "Power_On" ;;
+  2
+    inverter_mode_string = "Standby" ;;
+  3
+    inverter_mode_string = "Line" ;;
+  4
+    inverter_mode_string = "Battery" ;;
+  5
+    inverter_mode_string = "Fault" ;;
+  6
+    inverter_mode_string = "Power_Saving" ;;
+  7
+    inverter_mode_string = "Unknown"
+esac
 
-[ ! -z "$Inverter_mode" ] && pushMQTTData "Inverter_mode" "$Inverter_mode"
+[ ! -z "$inverter_mode_string" ] && pushMQTTData "Inverter_mode" "$inverter_mode_string"
 
 AC_grid_voltage=`echo $INVERTER_DATA | jq '.AC_grid_voltage' -r`
 [ ! -z "$AC_grid_voltage" ] && pushMQTTData "AC_grid_voltage" "$AC_grid_voltage"
