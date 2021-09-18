@@ -62,6 +62,23 @@ registerEnergyTopic () {
             \"icon\": \"mdi:$3\"
         }"
 }
+registerModeTopic () {
+    mosquitto_pub \
+        -h $MQTT_SERVER \
+        -p $MQTT_PORT \
+        -u "$MQTT_USERNAME" \
+        -P "$MQTT_PASSWORD" \
+        -i ""$MQTT_DEVICENAME"_"$MQTT_SERIAL"" \
+        -t ""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/config" \
+        -r \
+        -m "{
+            \"name\": \"$1_"$MQTT_DEVICENAME"\",
+            \"uniq_id\": \""$MQTT_SERIAL"_$1\",
+            \"device\": { \"ids\": \""$MQTT_SERIAL"\", \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
+            \"state_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1\",
+            \"icon\": \"mdi:$2\"
+        }"
+}
 registerInverterRawCMD () {
     mosquitto_pub \
         -h $MQTT_SERVER \
@@ -103,7 +120,7 @@ registerTopic "Load_watt" "W" "chart-bell-curve" "power"
 registerEnergyTopic "Load_watthour" "Wh" "chart-bell-curve" "energy"
 registerTopic "Max_charge_current" "A" "current-ac" "current"
 registerTopic "Max_grid_charge_current" "A" "current-ac" "current"
-registerTopic "Inverter_mode" "" "solar-power" "" # 1 = Power_On, 2 = Standby, 3 = Line, 4 = Battery, 5 = Fault, 6 = Power_Saving, 7 = Unknown
+registerModeTopic "Inverter_mode" "solar-power" # 1 = Power_On, 2 = Standby, 3 = Line, 4 = Battery, 5 = Fault, 6 = Power_Saving, 7 = Unknown
 registerTopic "Out_source_priority" "" "grid" "none"
 registerTopic "PV_in_current" "A" "solar-panel-large" "current"
 registerTopic "PV_in_voltage" "V" "solar-panel-large" "voltage"
