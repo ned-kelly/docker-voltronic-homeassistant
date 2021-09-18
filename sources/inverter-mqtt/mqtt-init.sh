@@ -56,8 +56,7 @@ registerEnergyTopic () {
             \"uniq_id\": \""$MQTT_SERIAL"_$1\",
             \"device\": { \"ids\": \""$MQTT_SERIAL"\", \"mf\": \""$MQTT_MANUFACTURER"\", \"mdl\": \""$MQTT_MODEL"\", \"name\": \""$MQTT_DEVICENAME"\", \"sw\": \""$MQTT_VER"\"},
             \"state_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1\",
-            \"last_reset_topic\": \""$MQTT_TOPIC"/sensor/"$MQTT_DEVICENAME"_"$MQTT_SERIAL"/$1/LastReset\",
-            \"state_class\": \"measurement\",
+            \"state_class\": \"total_increasing\",
             \"device_class\": \"$4\",
             \"unit_of_meas\": \"$2\",
             \"icon\": \"mdi:$3\"
