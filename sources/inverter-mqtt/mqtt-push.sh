@@ -44,19 +44,19 @@ Inverter_mode=`echo $INVERTER_DATA | jq '.Inverter_mode' -r`
 
  # 1 = Power_On, 2 = Standby, 3 = Line, 4 = Battery, 5 = Fault, 6 = Power_Saving, 7 = Unknown
 case "$Inverter_mode" in
-  1
+  1)
     inverter_mode_string = "Power_On" ;;
-  2
+  2)
     inverter_mode_string = "Standby" ;;
-  3
+  3)
     inverter_mode_string = "Line" ;;
-  4
+  4)
     inverter_mode_string = "Battery" ;;
-  5
+  5)
     inverter_mode_string = "Fault" ;;
-  6
+  6)
     inverter_mode_string = "Power_Saving" ;;
-  7
+  7)
     inverter_mode_string = "Unknown"
 esac
 
