@@ -43,7 +43,6 @@ string devicename;
 int runinterval;
 float ampfactor;
 float wattfactor;
-int qpiri, qpiws, qmod, qpigs;
 
 // ---------------------------------------
 
@@ -91,14 +90,6 @@ void getSettingsFile(string filename) {
                     attemptAddSetting(&wattfactor, linepart2);
                 else if(linepart1 == "watt_factor")
                     attemptAddSetting(&wattfactor, linepart2);
-                else if(linepart1 == "qpiri")
-                    attemptAddSetting(&qpiri, linepart2);
-                else if(linepart1 == "qpiws")
-                    attemptAddSetting(&qpiws, linepart2);
-                else if(linepart1 == "qmod")
-                    attemptAddSetting(&qmod, linepart2);
-                else if(linepart1 == "qpigs")
-                    attemptAddSetting(&qpigs, linepart2);
                 else
                     continue;
             }
@@ -180,7 +171,7 @@ int main(int argc, char* argv[]) {
     }
 
     bool ups_status_changed(false);
-    ups = new cInverter(devicename,qpiri,qpiws,qmod,qpigs);
+    ups = new cInverter(devicename);
 
     // Logic to send 'raw commands' to the inverter..
     if (!rawcmd.empty()) {
