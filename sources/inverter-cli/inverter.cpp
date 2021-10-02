@@ -115,7 +115,7 @@ bool cInverter::query(const char *cmd) {
 	int towrite = left > chunk_size ? chunk_size : left;
 	// WORKAROUND: For some reason, writing 1 byte causes it to error.
 	// However, since we padded with '\0' above, we can give it 2 instead.
-	// I don't know of any 6 (+ 2*CRC + '\r') byte commnads to test it on
+	// I don't know of any 6 (+ 2*CRC + '\r') byte commands to test it on
 	// but this at least gets it to return NAK.
 	if (towrite == 1) towrite = 2;
         //lprintf("DEBUG: offset %d, writing %d", offset, towrite);
