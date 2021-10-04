@@ -11,7 +11,7 @@ while read rawcmd;
 do
 
     echo "Incoming request send: [$rawcmd] to inverter."
-    /opt/inverter-cli/bin/inverter_poller -r $rawcmd;
-    /opt/inverter-mqtt/mqtt-push.sh
+    REPLY=$(/opt/inverter-cli/bin/inverter_poller -r $rawcmd)
+    mosquitto_pub -h $MQTT_SERVER -p $MQTT_PORT -u "$MQTT_USERNAME" -P "$MQTT_PASSWORD" -t "$MQTT_TOPIC/sensor/${MQTT_DEVICENAME}/reply" -q 1 -m "$rawcmd - $REPLY"
 
 done < <(mosquitto_sub -h $MQTT_SERVER -p $MQTT_PORT -u "$MQTT_USERNAME" -P "$MQTT_PASSWORD" -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME" -q 1)
