@@ -19,11 +19,11 @@ class cInverter {
 
     void SetMode(char newmode);
     bool CheckCRC(unsigned char *buff, int len);
-    bool query(const char *cmd, int replysize);
+    bool query(const char *cmd);
     uint16_t cal_crc_half(uint8_t *pin, uint8_t len);
 
     public:
-        cInverter(std::string devicename, int qpiri, int qpiws, int qmod, int qpigs);
+        cInverter(std::string devicename);
         void poll();
         void runMultiThread() {
             std::thread t1(&cInverter::poll, this);
