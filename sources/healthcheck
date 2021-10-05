@@ -1,8 +1,8 @@
 #!/bin/bash
 
-PROC=`ps cax | grep -E "mqtt-subscriber|mosquitto_sub|watch" | awk '{print $5}' | sort -u | wc -l`
+PROC=`ps cax | grep -E "mqtt-subscriber|mosquitto_sub" | awk '{print $5}' | sort -u | wc -l`
 
-if [ "$PROC" -eq "3" ] ; then
+if [ "$PROC" -eq "2" ] ; then
     exit 0
 else
     exit 99
