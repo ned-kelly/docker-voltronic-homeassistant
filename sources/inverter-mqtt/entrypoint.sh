@@ -1,16 +1,21 @@
 #!/bin/bash
-export TERM=xterm
+
+UNBUFFER='stdbuf -i0 -oL -eL'
 
 # stty -F /dev/ttyUSB0 2400 raw
 
-# Init the mqtt server for the first time, then every 5 minutes
-# This will re-create the auto-created topics in the MQTT server if HA is restarted...
+# Init the mqtt server.  This creates the config topics in the MQTT server
+# that the MQTT integration uses to create entities in HA.
 
-(while :; do /opt/inverter-mqtt/mqtt-init.sh; sleep 300; done) &
+# broker using persistence (default HA config)
+$UNBUFFER /opt/inverter-mqtt/mqtt-init.sh
 
-# Run the MQTT Subscriber process in the background (so that way we can change the configuration on the inverter from home assistant)
-# This normally doesn't exit, but the watch is needed to handle mqtt server restarts.
-(while :; do /opt/inverter-mqtt/mqtt-subscriber.sh; sleep 1; done) &
+# broker not using persistence
+#(while :; do $UNBUFFER /opt/inverter-mqtt/mqtt-init.sh; sleep 300; done) &
 
-# execute exactly every 30 seconds...
-while :; do /opt/inverter-mqtt/mqtt-push.sh; sleep 30; done
+# Run the MQTT subscriber process in the background (so that way we can change
+# the configuration on the inverter from home assistant).
+$UNBUFFER /opt/inverter-mqtt/mqtt-subscriber.sh &
+
+# Push poller updates every 30 seconds.
+while :; do $UNBUFFER /opt/inverter-mqtt/mqtt-push.sh; sleep 30; done
