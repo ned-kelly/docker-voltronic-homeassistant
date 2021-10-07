@@ -150,6 +150,7 @@ bool cInverter::query(const char *cmd) {
         lprintf("%s: %d bytes to write, %d bytes written", cmd, n, offset);
     }
 
+    // reads tend to be in multiple of 8 chars with NULL padding as necessary
     char *startbuf = (char *)&buf[0];
     char *endbuf = 0;
     time(&started);
@@ -214,8 +215,8 @@ void cInverter::poll() {
 
         // Reading mode
         if (!ups_qmod_changed) {
-            if (query("QMOD")) {
-		if (strcmp((char *)&buf[1], "NAK") == 0) break;
+            if (query("QMOD") &&
+		strcmp((char *)&buf[1], "NAK") != 0) {
                 SetMode(buf[1]);
                 ups_qmod_changed = true;
             }
@@ -223,8 +224,8 @@ void cInverter::poll() {
 
         // reading status (QPIGS)
         if (!ups_qpigs_changed) {
-            if (query("QPIGS")) {
-		if (strcmp((char *)&buf[1], "NAK") == 0) break;
+            if (query("QPIGS") &&
+		strcmp((char *)&buf[1], "NAK") != 0) {
                 m.lock();
                 strcpy(status1, (const char*)buf+1);
                 m.unlock();
@@ -234,8 +235,8 @@ void cInverter::poll() {
 
         // Reading QPIRI status
         if (!ups_qpiri_changed) {
-            if (query("QPIRI")) {
-		if (strcmp((char *)&buf[1], "NAK") == 0) break;
+            if (query("QPIRI") &&
+		strcmp((char *)&buf[1], "NAK") != 0) {
                 m.lock();
                 strcpy(status2, (const char*)buf+1);
                 m.unlock();
@@ -245,8 +246,8 @@ void cInverter::poll() {
 
         // Get any device warnings...
         if (!ups_qpiws_changed) {
-            if (query("QPIWS")) {
-		if (strcmp((char *)&buf[1], "NAK") == 0) break;
+            if (query("QPIWS") &&
+		strcmp((char *)&buf[1], "NAK") != 0) {
                 m.lock();
                 strcpy(warnings, (const char*)buf+1);
                 m.unlock();
