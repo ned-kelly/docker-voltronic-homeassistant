@@ -7,7 +7,8 @@
 using namespace std;
 
 class cInverter {
-    unsigned char buf[1024]; //internal work buffer
+    unsigned char buf[1024];	// internal work buffer
+    char escaped_buf[4096];	// screen-printable version of above
 
     char warnings[1024];
     char status1[1024];
@@ -21,6 +22,7 @@ class cInverter {
     bool CheckCRC(unsigned char *buff, int len);
     bool query(const char *cmd);
     uint16_t cal_crc_half(uint8_t *pin, uint8_t len);
+    char *escape_strn(unsigned char *str, int n);
 
     public:
         cInverter(std::string devicename);
