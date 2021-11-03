@@ -1,9 +1,10 @@
 version: '3'
 
 services:
-  voltronic-mqtt:
+  inverter:
 
     # We're now (finally) supporting Multi-Arch builds (via Github actions) on Docker Hub!
+    # Uncomment for nedkelly's dockerhub image We're now (finally) supporting Multi-Arch builds (via Github actions) on Docker Hub!
     # image: bushrangers/ha-voltronic-mqtt
 
     # Uncomment if you want to build your own local version.
@@ -12,7 +13,7 @@ services:
       dockerfile: Dockerfile.dev
 
 
-    container_name: voltronic-mqtt
+    container_name: inverter
 
     privileged: true
     restart: always
@@ -33,18 +34,17 @@ services:
       - /dev/ttyS1:/dev/ttyS1
       - /dev/ttyS2:/dev/ttyS2
 
-  # Used to auto-update images as we release new versions...
+  # uncomment to use auto-update of nedkellys dockerhub images as he releases new versions...
   # watchtower:
-    # Please see the following for configuration options:
-    #    https://containrrr.github.io/watchtower/container-selection/
-    # image: containrrr/watchtower
-    # container_name: watchtower
-
-    # restart: always
-    # privileged: true
-
-    # volumes:
-    #  - /var/run/docker.sock:/var/run/docker.sock
-
-    # command: --interval 500
-
+  # Please see the following for configuration options:
+  # https://containrrr.github.io/watchtower/container-selection/
+  #  image: containrrr/watchtower
+  #  container_name: watchtower
+  #
+  #  restart: always
+  #  privileged: true
+  #
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #
+  #  command: --interval 500

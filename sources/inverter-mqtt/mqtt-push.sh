@@ -4,11 +4,11 @@ MQTT_SERVER=`cat /etc/inverter/mqtt.json | jq '.server' -r`
 MQTT_PORT=`cat /etc/inverter/mqtt.json | jq '.port' -r`
 MQTT_TOPIC=`cat /etc/inverter/mqtt.json | jq '.topic' -r`
 MQTT_DEVICENAME=`cat /etc/inverter/mqtt.json | jq '.devicename' -r`
+MQTT_SERIAL=`cat /etc/inverter/mqtt.json | jq '.serial' -r`
 MQTT_USERNAME=`cat /etc/inverter/mqtt.json | jq '.username' -r`
 MQTT_PASSWORD=`cat /etc/inverter/mqtt.json | jq '.password' -r`
-MQTT_CLIENTID=`cat /etc/inverter/mqtt.json | jq '.clientid' -r`
-
 INFLUX_ENABLED=`cat /etc/inverter/mqtt.json | jq '.influx.enabled' -r`
+
 if [[ $INFLUX_ENABLED == "true" ]] ; then
     INFLUX_HOST=`cat /etc/inverter/mqtt.json | jq '.influx.host' -r`
     INFLUX_USERNAME=`cat /etc/inverter/mqtt.json | jq '.influx.username' -r`
@@ -39,6 +39,7 @@ pushMQTTData () {
 
 pushInfluxData () {
     curl -i -XPOST "$INFLUX_HOST/write?db=$INFLUX_DATABASE&precision=s" -u "$INFLUX_USERNAME:$INFLUX_PASSWORD" --data-binary "$INFLUX_PREFIX,device=$INFLUX_DEVICE $INFLUX_MEASUREMENT_NAME=$2"
+
 }
 
 ###############################################################################
@@ -49,6 +50,7 @@ POLLER_JSON=$(timeout 10 /opt/inverter-cli/bin/inverter_poller -1)
 BASH_HASH=$(echo $POLLER_JSON | jq -r '. | to_entries | .[] | @sh "[\(.key)]=\(.value)"')
 eval "declare -A INVERTER_DATA=($BASH_HASH)"
 
+<<<<<<< HEAD
 for key in "${!INVERTER_DATA[@]}"; do
     pushMQTTData "$key" "${INVERTER_DATA[$key]}"
 done

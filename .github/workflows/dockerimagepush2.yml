@@ -1,18 +1,8 @@
-# Docker Hub CI/CD for Multi Arch Images...
-name: buildx
+name: Docker Image CI
 
 on:
-  pull_request:
-    branches:
-      - master
-      - releases/*
-      - actions
   push:
-    branches:
-      - master
-      - releases/*
-      - actions
-    tags:
+    branches: [ master ]
 
 jobs:
   buildx:
@@ -29,7 +19,7 @@ jobs:
           fi
           echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386
-          echo ::set-output name=docker_image::bushrangers/ha-voltronic-mqtt
+          echo ::set-output name=docker_image::gadget78/solarinverter4homeassistant
       -
         name: Checkout
         uses: actions/checkout@v1
@@ -46,8 +36,8 @@ jobs:
         name: Docker Login
         if: success()
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_TOKEN }}
         run: |
           echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
       -
@@ -66,5 +56,3 @@ jobs:
         if: always()
         run: |
           rm -f ${HOME}/.docker/config.json
-
-
