@@ -28,7 +28,7 @@ void lprintf(const char *format, ...) {
         buf[strlen(buf)-1] = 0;
 
         //connect with args
-        snprintf(fmt, sizeof(fmt), "%s %s\n", buf, format);
+        snprintf(fmt, sizeof(fmt), "%s INVERTER: %s\n", buf, format);
 
         //put on screen:
         va_start(ap, format);

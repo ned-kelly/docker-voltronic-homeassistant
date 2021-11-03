@@ -17,6 +17,7 @@ registerTopic () {
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
         -i $MQTT_CLIENTID \
+      	-r \
         -t "$MQTT_TOPIC/sensor/"$MQTT_DEVICENAME"_$1/config" \
         -m "{
             \"name\": \""$MQTT_DEVICENAME"_$1\",
@@ -33,6 +34,7 @@ registerInverterRawCMD () {
         -u "$MQTT_USERNAME" \
         -P "$MQTT_PASSWORD" \
         -i $MQTT_CLIENTID \
+      	-r \
         -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME/config" \
         -m "{
             \"name\": \""$MQTT_DEVICENAME"\",
@@ -55,7 +57,7 @@ registerTopic "Load_watt" "W" "chart-bell-curve"
 registerTopic "Load_watthour" "Wh" "chart-bell-curve"
 registerTopic "Load_va" "VA" "chart-bell-curve"
 registerTopic "Bus_voltage" "V" "details"
-registerTopic "Heatsink_temperature" "" "details"
+registerTopic "Heatsink_temperature" "C" "thermometer"
 registerTopic "Battery_capacity" "%" "battery-outline"
 registerTopic "Battery_voltage" "V" "battery-outline"
 registerTopic "Battery_charge_current" "A" "current-dc"

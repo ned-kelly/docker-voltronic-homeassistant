@@ -8,10 +8,21 @@ MQTT_USERNAME=`cat /etc/inverter/mqtt.json | jq '.username' -r`
 MQTT_PASSWORD=`cat /etc/inverter/mqtt.json | jq '.password' -r`
 MQTT_CLIENTID=`cat /etc/inverter/mqtt.json | jq '.clientid' -r`
 
-while read rawcmd;
-do
+function subscribe () {
+    mosquitto_sub -h $MQTT_SERVER -p $MQTT_PORT -u "$MQTT_USERNAME" -P "$MQTT_PASSWORD" -i $MQTT_CLIENTID -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME" -q 1
+}
 
-    echo "Incoming request send: [$rawcmd] to inverter."
-    /opt/inverter-cli/bin/inverter_poller -r $rawcmd;
+function reply () {
+    mosquitto_pub -h $MQTT_SERVER -p $MQTT_PORT -u "$MQTT_USERNAME" -P "$MQTT_PASSWORD" -i $MQTT_CLIENTID -t "$MQTT_TOPIC/sensor/${MQTT_DEVICENAME}/reply" -q 1 -m "$*"
+}
 
-done < <(mosquitto_sub -h $MQTT_SERVER -p $MQTT_PORT -u "$MQTT_USERNAME" -P "$MQTT_PASSWORD" -i $MQTT_CLIENTID -t "$MQTT_TOPIC/sensor/$MQTT_DEVICENAME" -q 1)
+subscribe | while read rawcmd; do
+    echo "[$(date +%F+%T)] Incoming request send: [$rawcmd] to inverter."
+    for attempt in $(seq 3); do
+	REPLY=$(/opt/inverter-cli/bin/inverter_poller -r $rawcmd)
+	echo "[$(date +%F+%T)] $REPLY"
+        reply "[$rawcmd] [Attempt $attempt] [$REPLY]"
+	[ "$REPLY" = "Reply:  ACK" ] && break
+	[ "$attempt" != "3" ] && sleep 1
+    done
+done
