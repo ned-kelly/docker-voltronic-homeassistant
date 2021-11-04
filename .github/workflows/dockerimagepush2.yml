@@ -19,7 +19,7 @@ jobs:
           fi
           echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386
-          echo ::set-output name=docker_image::gadget78/solarinverter4homeassistant
+          echo ::set-output name=docker_image::upupa/ha-voltronic-mqtt
       -
         name: Checkout
         uses: actions/checkout@v1
@@ -32,6 +32,14 @@ jobs:
       -
         name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
+      -
+        name: Docker Login
+        if: success()
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: |
+          echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
       -
         name: Run Buildx (Push to Docker Hub)
         run: |
