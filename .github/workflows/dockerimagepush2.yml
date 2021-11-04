@@ -33,14 +33,6 @@ jobs:
         name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
       -
-        name: Docker Login
-        if: success()
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_TOKEN }}
-        run: |
-          echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
-      -
         name: Run Buildx (Push to Docker Hub)
         run: |
           docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
