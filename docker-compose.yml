@@ -10,10 +10,10 @@ services:
     # Uncomment if you want to build your own local version.
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
 
 
-    container_name: inverter
+    container_name: inverter-alp
 
     privileged: true
     restart: always
