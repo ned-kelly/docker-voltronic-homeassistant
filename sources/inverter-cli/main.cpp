@@ -15,6 +15,7 @@
 
 #include <pthread.h>
 #include <signal.h>
+#include <string.h>
 
 #include <iostream>
 #include <string>
@@ -184,7 +185,23 @@ int main(int argc, char* argv[]) {
 
     // Logic to send 'raw commands' to the inverter..
     if (!rawcmd.empty()) {
-        ups->ExecuteCmd(rawcmd);
+        int replylen;
+        if (!strcmp(rawcmd.c_str(), "QPI"))
+            replylen = 8;
+        else if (!strcmp(rawcmd.c_str(), "QID"))
+            replylen = 18;
+        else if (!strcmp(rawcmd.c_str(), "QVFW"))
+            replylen = 18;
+        else if (!strcmp(rawcmd.c_str(), "QVFW2"))
+            replylen = 19;
+        else if (!strcmp(rawcmd.c_str(), "QFLAG"))
+            replylen = 15;
+        else if (!strcmp(rawcmd.c_str(), "QBOOT"))
+            replylen = 5;
+        else if (!strcmp(rawcmd.c_str(), "QOPM"))
+            replylen = 6;
+        else replylen = 7;
+        ups->ExecuteCmd(rawcmd, replylen);
         // We're piggybacking off the qpri status response...
         printf("Reply:  %s\n", ups->GetQpiriStatus()->c_str());
         exit(0);
