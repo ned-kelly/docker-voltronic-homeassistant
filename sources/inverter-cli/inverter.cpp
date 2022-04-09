@@ -6,7 +6,6 @@
 #include "tools.h"
 #include "main.h"
 
-#include <fcntl.h>
 #include <termios.h>
 
 cInverter::cInverter(std::string devicename, int qpiri, int qpiws, int qmod, int qpigs) {
