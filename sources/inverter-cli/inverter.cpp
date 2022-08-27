@@ -203,9 +203,9 @@ void cInverter::poll() {
     }
 }
 
-void cInverter::ExecuteCmd(const string cmd) {
+void cInverter::ExecuteCmd(const string cmd, int replylen) {
     // Sending any command raw
-    if (query(cmd.data(), 7)) {
+    if (query(cmd.data(), replylen)) {
         m.lock();
         strcpy(status2, (const char*)buf+1);
         m.unlock();
