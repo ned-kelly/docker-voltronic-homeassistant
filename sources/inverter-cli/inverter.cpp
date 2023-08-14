@@ -199,11 +199,12 @@ void cInverter::poll() {
                 ups_qpiws_changed = true;
             }
         }
+        sleep(5);
+        // leave after delay to let main thread printout data
         if (runOnce) {
             ups_leave = true;
             exit(0);
-        }
-        sleep(5);
+        }        
     }
 }
 
