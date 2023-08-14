@@ -279,12 +279,6 @@ int main(int argc, char* argv[]) {
                 // Delete reply string so we can update with new data when polled again...
                 delete reply1;
                 delete reply2;
-
-                if(runOnce) {
-                    // Do once and exit instead of loop endlessly
-                    lprintf("INVERTER: All queries complete, exiting loop.");
-                    exit(0);
-                }
             }
         }
         if(ups_leave) {
