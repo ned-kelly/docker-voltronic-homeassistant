@@ -72,15 +72,10 @@ bool cInverter::query(const char *cmd, int replysize) {
     time_t started;
     int fd;
     int i=0, n;
-    extern const bool runOnce;
 
     fd = open(this->device.data(), O_RDWR | O_NONBLOCK);
     if (fd == -1) {
-        lprintf("INVERTER: Unable to open device file (errno=%d %s)", errno, strerror(errno));
-        if (runOnce) {
-            printf("Leaving one shot run: Unable to open device file (errno=%d %s)", errno, strerror(errno));
-            exit(-1);
-        }        
+        lprintf("INVERTER: Unable to open device file (errno=%d %s)", errno, strerror(errno));      
         sleep(5);
         return false;
     }
@@ -163,6 +158,7 @@ bool cInverter::query(const char *cmd, int replysize) {
 void cInverter::poll() {
     int n,j;
     extern const int qpiri, qpiws, qmod, qpigs;
+    extern const bool runOnce;
 
     while (true) {
 
@@ -203,7 +199,10 @@ void cInverter::poll() {
                 ups_qpiws_changed = true;
             }
         }
-
+        if (runOnce) {
+            ups_leave = true;
+            exit(0);
+        }
         sleep(5);
     }
 }

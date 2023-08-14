@@ -25,6 +25,7 @@
 
 bool debugFlag = false;
 bool runOnce = false;
+bool ups_leave = false;
 
 cInverter *ups = NULL;
 
@@ -286,6 +287,11 @@ int main(int argc, char* argv[]) {
                 }
             }
         }
+        if(ups_leave) {
+            // Do once and exit instead of loop endlessly
+            lprintf("INVERTER: All queries complete, exiting loop.");
+            exit(0);
+        }        
 
         sleep(1);
     }

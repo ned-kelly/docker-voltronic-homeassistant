@@ -5,6 +5,8 @@
 #include "inverter.h"
 
 extern bool debugFlag;
+extern bool ups_leave;
+
 extern atomic_bool ups_data_changed;
 
 extern atomic_bool ups_status_changed;
