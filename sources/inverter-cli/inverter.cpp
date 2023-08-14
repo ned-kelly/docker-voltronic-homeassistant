@@ -75,7 +75,7 @@ bool cInverter::query(const char *cmd, int replysize) {
 
     fd = open(this->device.data(), O_RDWR | O_NONBLOCK);
     if (fd == -1) {
-        lprintf("INVERTER: Unable to open device file (errno=%d %s)", errno, strerror(errno));      
+        lprintf("INVERTER: Unable to open device file (errno=%d %s)", errno, strerror(errno));
         sleep(5);
         return false;
     }
