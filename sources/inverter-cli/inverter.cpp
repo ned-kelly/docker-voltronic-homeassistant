@@ -158,6 +158,7 @@ bool cInverter::query(const char *cmd, int replysize) {
 void cInverter::poll() {
     int n,j;
     extern const int qpiri, qpiws, qmod, qpigs;
+    extern const bool runOnce;
 
     while (true) {
 
@@ -198,8 +199,12 @@ void cInverter::poll() {
                 ups_qpiws_changed = true;
             }
         }
-
         sleep(5);
+        // leave after delay to let main thread printout data
+        if (runOnce) {
+            ups_leave = true;
+            exit(0);
+        }        
     }
 }
 
