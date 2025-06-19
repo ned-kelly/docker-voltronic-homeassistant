@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <thread>
+#include <sys/file.h>
 
 #include "main.h"
 #include "tools.h"
@@ -169,13 +170,17 @@ int main(int argc, char* argv[]) {
         runOnce = true;
     }
     lprintf("INVERTER: Debug set");
+    const char *settings;
 
     // Get the rest of the settings from the conf file
     if( access( "./inverter.conf", F_OK ) != -1 ) { // file exists
-        getSettingsFile("./inverter.conf");
+        settings = "./inverter.conf";
     } else { // file doesn't exist
-        getSettingsFile("/etc/inverter/inverter.conf");
+        settings = "/etc/inverter/inverter.conf";
     }
+    getSettingsFile(settings);
+    int fd = open(settings, O_RDWR);
+    while (flock(fd, LOCK_EX)) sleep(1);
 
     bool ups_status_changed(false);
     ups = new cInverter(devicename,qpiri,qpiws,qmod,qpigs);
@@ -280,6 +285,7 @@ int main(int argc, char* argv[]) {
                 delete reply2;
 
                 if(runOnce) {
+                    ups->terminateThread();
                     // Do once and exit instead of loop endlessly
                     lprintf("INVERTER: All queries complete, exiting loop.");
                     exit(0);
@@ -290,7 +296,9 @@ int main(int argc, char* argv[]) {
         sleep(1);
     }
 
-    if (ups)
+    if (ups) {
+        ups->terminateThread();
         delete ups;
+    }
     return 0;
 }

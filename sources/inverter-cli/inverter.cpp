@@ -198,7 +198,7 @@ void cInverter::poll() {
                 ups_qpiws_changed = true;
             }
         }
-
+        if (quit_thread) return;
         sleep(5);
     }
 }
